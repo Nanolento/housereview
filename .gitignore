@@ -13,3 +13,6 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+# Do not put data in the repo
+data/
