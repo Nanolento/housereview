@@ -10,6 +10,10 @@
           :monthlyRent="house.monthlyRent|default(0)"
           :city="house.city"
           :energyLabel="house.energyLabel|default('(Energy label missing)')"
+          :titleGrade="house.titleGrade.value"
+          :rentGrade="house.rentGrade.value"
+          :energyGrade="house.energyGrade.value"
+          :overallGrade="house.overallGrade.value"
           />
       {% endfor %}
     </div>
