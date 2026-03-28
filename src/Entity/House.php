@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Grade;
 use App\Repository\HouseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +28,18 @@ class House
 
     #[ORM\Column(length: 255)]
     private ?string $city = null;
+
+    #[ORM\Column(nullable: true, enumType: Grade::class)]
+    private ?Grade $titleGrade = null;
+
+    #[ORM\Column(nullable: true, enumType: Grade::class)]
+    private ?Grade $rentGrade = null;
+
+    #[ORM\Column(nullable: true, enumType: Grade::class)]
+    private ?Grade $energyGrade = null;
+
+    #[ORM\Column(nullable: true, enumType: Grade::class)]
+    private ?Grade $overallGrade = null;
 
     public function getId(): ?int
     {
@@ -89,6 +102,54 @@ class House
     public function setCity(string $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getTitleGrade(): ?Grade
+    {
+        return $this->titleGrade;
+    }
+
+    public function setTitleGrade(?Grade $titleGrade): static
+    {
+        $this->titleGrade = $titleGrade;
+
+        return $this;
+    }
+
+    public function getRentGrade(): ?Grade
+    {
+        return $this->rentGrade;
+    }
+
+    public function setRentGrade(?Grade $rentGrade): static
+    {
+        $this->rentGrade = $rentGrade;
+
+        return $this;
+    }
+
+    public function getEnergyGrade(): ?Grade
+    {
+        return $this->energyGrade;
+    }
+
+    public function setEnergyGrade(?Grade $energyGrade): static
+    {
+        $this->energyGrade = $energyGrade;
+
+        return $this;
+    }
+
+    public function getOverallGrade(): ?Grade
+    {
+        return $this->overallGrade;
+    }
+
+    public function setOverallGrade(?Grade $overallGrade): static
+    {
+        $this->overallGrade = $overallGrade;
 
         return $this;
     }
