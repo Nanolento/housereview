@@ -27,6 +27,10 @@ class HouseLoader {
         # Process each house
         for ($i = 0; $i < count($houses); $i++) {
             # check if this house already exists by attempting to retrieve it from db.
+            if (!isset($houses[$i]['listing_id'])) {
+                # This house does not have an ID we can check and is therefore invalid.
+                continue;
+            }
             $externalId = $houses[$i]['listing_id'];
             $existingHouse = $this->em->getRepository(House::class)->findOneBy([
                 'externalId' => $externalId,
@@ -40,20 +44,20 @@ class HouseLoader {
             $house = new House();
             $house->setExternalId($externalId);
             # Make sure title is string, else make it null.
-            if (is_string($houses[$i]['headline'])) {
+            if (isset($houses[$i]['headline']) && is_string($houses[$i]['headline'])) {
                 $house->setTitle($houses[$i]['headline']);
             } else {
                 $house->setTitle(null);
             }
             # Monthly rent: should be int, make it null if not.
-            if (is_int($houses[$i]['monthly_rent'])) {
+            if (isset($houses[$i]['monthly_rent']) && is_int($houses[$i]['monthly_rent'])) {
                 $house->setMonthlyRent($houses[$i]['monthly_rent']);
             } else {
                 # Invalid type should also just be null
                 $house->setMonthlyRent(null);
             }
             # Energy label, should be a short string.
-            if (is_string($houses[$i]['energy_class'])) {
+            if (isset($houses[$i]['energy_class']) && is_string($houses[$i]['energy_class'])) {
                 $house->setEnergyLabel($houses[$i]['energy_class']);
             } else {
                 $house->setEnergyLabel(null);
