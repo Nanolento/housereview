@@ -2,6 +2,7 @@
 namespace App\Service;
 
 use App\Entity\House;
+use App\Enum\Grade;
 use Doctrine\ORM\EntityManagerInterface;
 
 /*
@@ -60,10 +61,74 @@ class HouseLoader {
             # Set city.
             $house->setCity($houses[$i]['location_city']);
 
+            # Grade the house.
+            $this->gradeHouse($house);
+
             # save this house
             $this->em->persist($house);
         }
         # actually write them to the database.
         $this->em->flush();
+    }
+
+    /**
+     * Grades houses based on their title, monthly rent and energy label.
+     * This sets the 'titleGrade', 'rentGrade', 'energyGrade' and 'overallGrade'
+     * in the House object.
+     * @param House house The house to grade and set grades for.
+     */
+    private function gradeHouse(House $house) {
+        $overallGrade = Grade::GOOD;
+        # In the below grading, according to the rules, this grade will drop
+        # depending on the grades given to individual things.
+        
+        # Grading title
+        $house_title = $house->getTitle();
+        if (!is_string($house_title) || strlen($house_title) === 0) {
+            $house->setTitleGrade(Grade::REJECTED);
+            $overallGrade = Grade::REJECTED;
+        } elseif (strlen($house_title) < 10) {
+            $house->setTitleGrade(Grade::WARNING);
+            $overallGrade = Grade::WARNING;
+        } else {
+            $house->setTitleGrade(Grade::GOOD);
+        }
+
+        # Grading rent
+        $house_rent = $house->getMonthlyRent();
+        if (!is_int($house_rent) || $house_rent <= 0) {
+            $house->setRentGrade(Grade::REJECTED);
+            $overallGrade = Grade::REJECTED;
+        } else {
+            $house->setRentGrade(Grade::GOOD);
+        }
+
+        # Grading Energy Label
+        $valid_energy_labels = [
+            'A++++', 'A+++', 'A++',
+            'A+', 'A', 'B',
+            'C', 'D', 'E',
+            'F', 'G'
+        ];
+        $house_energy_label = $house->getEnergyLabel();
+        # Empty or missing/null -> WARNING, Invalid value (eg. Z) -> REJECTED, in valid_energy_labels -> GOOD
+        if (!is_string($house_energy_label) || strlen($house_energy_label) === 0) {
+            $house->setEnergyGrade(Grade::WARNING);
+            if ($overallGrade !== Grade::REJECTED) {
+                $overallGrade = Grade::WARNING;
+            }
+        } elseif (!in_array($house_energy_label, $valid_energy_labels, true)) {
+            $house->setEnergyGrade(Grade::REJECTED);
+            $overallGrade = Grade::REJECTED;
+        } else {
+            $house->setEnergyGrade(Grade::GOOD);
+        }
+
+        # Overall grading
+        # REJECTED "Attention Required": >=1 grades are REJECTED.
+        # WARNING "Check Needed": None REJECTED, but >=1 are WARNING.
+        # GOOD "Ready for Review": Everything is GOOD.
+        # Processed above.
+        $house->setOverallGrade($overallGrade);
     }
 }
