@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\Grade;
+use App\Enum\HouseStatus;
 use App\Repository\HouseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,6 +41,9 @@ class House
 
     #[ORM\Column(nullable: true, enumType: Grade::class)]
     private ?Grade $overallGrade = null;
+
+    #[ORM\Column(enumType: HouseStatus::class)]
+    private ?HouseStatus $status = HouseStatus::PENDING;
 
     public function getId(): ?int
     {
@@ -150,6 +154,18 @@ class House
     public function setOverallGrade(?Grade $overallGrade): static
     {
         $this->overallGrade = $overallGrade;
+
+        return $this;
+    }
+
+    public function getStatus(): ?HouseStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(HouseStatus $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

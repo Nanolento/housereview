@@ -2,13 +2,16 @@
 namespace App\Service;
 
 use App\Entity\House;
+
 use App\Enum\Grade;
+use App\Enum\HouseStatus;
+
 use Doctrine\ORM\EntityManagerInterface;
 
 /*
 The HouseLoader class takes houses from the JSON data and puts them in the SQL
 database. If run when the database is not empty, it will add the houses that were
-not yet in the database to the database.
+not yet in the database to the database. It also does the grading of the houses.
 */
 
 class HouseLoader {
@@ -67,6 +70,9 @@ class HouseLoader {
 
             # Grade the house.
             $this->gradeHouse($house);
+
+            # Assign default "Pending" status.
+            $house->setStatus(HouseStatus::PENDING);
 
             # save this house
             $this->em->persist($house);
