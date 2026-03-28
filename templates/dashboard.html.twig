@@ -2,13 +2,16 @@
 <html>
   <body>
     <h1>House Review Dashboard</h1>
-    <p>There are some houses available.</p>
+    <p>There are {{ houses|length }} houses available.</p>
     <div id="houseContainer">
-      {{ component('HouseListing', {
-      title: 'House 1',
-      monthlyRent: 2000,
-      city: 'Groningen'
-      }) }}
+      {% for house in houses %}
+        <twig:HouseListing
+          :title="house.title"
+          :monthlyRent="house.monthlyRent"
+          :city="house.city"
+          :energyLabel="house.energyLabel|default('None')"
+          />
+      {% endfor %}
     </div>
   </body>  
 </html>

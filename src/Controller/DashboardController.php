@@ -2,10 +2,17 @@
 
 namespace App\Controller;
 
+# Entities
+use App\Entity\House;
+
+# Services and models
 use App\Service\HouseLoader;
+
+# Other dependencies
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DashboardController extends AbstractController {
 
@@ -18,8 +25,14 @@ class DashboardController extends AbstractController {
     }
 
     #[Route('/')]
-    public function main(): Response {
-        return $this->render('dashboard.html.twig');
+    public function main(EntityManagerInterface $em): Response {
+        # Get houses
+        $houseRepo = $em->getRepository(House::class);
+        $houses = $houseRepo->findAll();
+        
+        return $this->render('dashboard.html.twig', [
+            'houses' => $houses,
+        ]);
     }
 
     // This is a test route to make loading houses possible while the ui isnt finished,
