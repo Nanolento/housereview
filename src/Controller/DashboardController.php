@@ -19,7 +19,7 @@ class DashboardController extends AbstractController {
 
     #[Route('/')]
     public function main(): Response {
-        return new Response('test');
+        return $this->render('dashboard.html.twig');
     }
 
     // This is a test route to make loading houses possible while the ui isnt finished,
