@@ -15,6 +15,11 @@ class DashboardController extends AbstractController {
             'number' => $number,
         ]);
     }
+
+    #[Route('/')]
+    public function main(): Response {
+        return new Response('test');
+    }
     
 }
 
