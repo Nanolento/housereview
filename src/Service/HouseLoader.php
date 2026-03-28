@@ -38,9 +38,26 @@ class HouseLoader {
             # Create house object and set values
             $house = new House();
             $house->setExternalId($externalId);
-            $house->setTitle($houses[$i]['headline']);
-            $house->setMonthlyRent($houses[$i]['monthly_rent']);
-            $house->setEnergyLabel($houses[$i]['energy_class']);
+            # Make sure title is string, else make it null.
+            if (is_string($houses[$i]['headline'])) {
+                $house->setTitle($houses[$i]['headline']);
+            } else {
+                $house->setTitle(null);
+            }
+            # Monthly rent: should be int, make it null if not.
+            if (is_int($houses[$i]['monthly_rent'])) {
+                $house->setMonthlyRent($houses[$i]['monthly_rent']);
+            } else {
+                # Invalid type should also just be null
+                $house->setMonthlyRent(null);
+            }
+            # Energy label, should be a short string.
+            if (is_string($houses[$i]['energy_class'])) {
+                $house->setEnergyLabel($houses[$i]['energy_class']);
+            } else {
+                $house->setEnergyLabel(null);
+            }
+            # Set city.
             $house->setCity($houses[$i]['location_city']);
 
             # save this house
