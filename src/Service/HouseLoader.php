@@ -25,9 +25,19 @@ class HouseLoader {
 
         # Process each house
         for ($i = 0; $i < count($houses); $i++) {
+            # check if this house already exists by attempting to retrieve it from db.
+            $externalId = $houses[$i]['listing_id'];
+            $existingHouse = $this->em->getRepository(House::class)->findOneBy([
+                'externalId' => $externalId,
+            ]);
+
+            if ($existingHouse) {
+                continue; # skip this one as its already there.
+            }
+
             # Create house object and set values
             $house = new House();
-            $house->setExternalId($houses[$i]['listing_id']);
+            $house->setExternalId($externalId);
             $house->setTitle($houses[$i]['headline']);
             $house->setMonthlyRent($houses[$i]['monthly_rent']);
             $house->setEnergyLabel($houses[$i]['energy_class']);
