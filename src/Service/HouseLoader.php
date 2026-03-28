@@ -13,7 +13,11 @@ not yet in the database to the database.
 class HouseLoader {
 
     public function __construct(private string $filePath, private EntityManagerInterface $em) {}
-    
+
+    /**
+     * Load houses from the input JSON file into the database for later use by the dashboard UI.
+     * No parameters, the file path for the JSON file is in services.yaml.
+     */
     public function loadHouses() {
         # Load JSON data
         $housefile = file_get_contents($this->filePath);
@@ -34,6 +38,5 @@ class HouseLoader {
         }
         # actually write them to the database.
         $this->em->flush();
-        return $houses;
     }
 }

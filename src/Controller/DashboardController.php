@@ -26,9 +26,8 @@ class DashboardController extends AbstractController {
     // we will make it so it loads the houses automatically if none were found with the ui.
     #[Route('/load')]
     public function loadHouse(HouseLoader $hl): Response {
-        $houses = $hl->loadHouses();
-        dump($houses);
-        return new Response('<html><body><h1>hello</h1></body></html>');
+        $hl->loadHouses();
+        return new Response('<html><body><h1>Houses loaded into database.</h1></body></html>');
     }
     
 }
