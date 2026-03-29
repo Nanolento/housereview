@@ -17,22 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class DashboardController extends AbstractController {
 
     #[Route('/')]
-    public function main(EntityManagerInterface $em, HouseLoader $hl): Response {
-        # Get houses
-        $houseRepo = $em->getRepository(House::class);
-        $houses = $houseRepo->findAll();
-
-        if (count($houses) === 0) {
-            # Load houses into db if there are none in the db.
-            if ($hl->loadHouses()) {
-                # Get houses again
-                $houseRepo = $em->getRepository(House::class);
-                $houses = $houseRepo->findAll();
-            } else {
-                return new Response('<html><body><h1>Could not start dashboard as data could not be loaded.</h1></body></html>');
-            }
-        }
-        
+    public function main(): Response {
         return $this->render('dashboard.html.twig');
     }
 

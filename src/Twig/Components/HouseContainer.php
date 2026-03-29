@@ -3,6 +3,7 @@ namespace App\Twig\Components;
 
 use App\Enum\HouseStatus;
 use App\Entity\House;
+use App\Service\HouseLoader;
 
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -15,7 +16,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class HouseContainer {
 
     public function __construct(
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
+        private HouseLoader $hl
     ) {}
     
     use DefaultActionTrait;
@@ -50,7 +52,20 @@ class HouseContainer {
 
         # If there is no query, just get all of them.
         if ($this->statusQuery === null) {
-            return $repo->findAll();
+            $houses = $repo->findAll();
+
+            # Since there is no query, this is all houses.
+            # If there are no houses, lets try parsing the input data
+            # to fill the database.
+            if (count($houses) === 0) {
+                # Load houses into db if there are none in the db.
+                if ($this->hl->loadHouses()) {
+                    # Get houses again
+                    $houses = $repo->findAll();
+                } # else there are no houses, just return the nothing we found earlier.
+            }
+
+            return $houses;
         } else {
             return $repo->findBy([
                 'status' => $this->statusQuery->value,
