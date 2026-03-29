@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Enum\Grade;
 use App\Enum\HouseStatus;
+
 use App\Repository\HouseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,6 +45,12 @@ class House
 
     #[ORM\Column(enumType: HouseStatus::class)]
     private ?HouseStatus $status = HouseStatus::PENDING;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $area = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $roomCount = null;
 
     public function getId(): ?int
     {
@@ -166,6 +173,30 @@ class House
     public function setStatus(HouseStatus $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getArea(): ?int
+    {
+        return $this->area;
+    }
+
+    public function setArea(?int $area): static
+    {
+        $this->area = $area;
+
+        return $this;
+    }
+
+    public function getRoomCount(): ?int
+    {
+        return $this->roomCount;
+    }
+
+    public function setRoomCount(?int $roomCount): static
+    {
+        $this->roomCount = $roomCount;
 
         return $this;
     }

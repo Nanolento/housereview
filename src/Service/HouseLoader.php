@@ -68,6 +68,20 @@ class HouseLoader {
             # Set city.
             $house->setCity($houses[$i]['location_city']);
 
+            # Miscellaneous non-required values
+            # Room count
+            if (isset($houses[$i]['rooms']) && is_integer($houses[$i]['rooms'])) {
+                $house->setRoomCount($houses[$i]['rooms']);
+            } else {
+                $house->setRoomCount(null);
+            }
+            # Surface Area (m^2)
+            if (isset($houses[$i]['surface_area_m2']) && is_integer($houses[$i]['surface_area_m2'])) {
+                $house->setArea($houses[$i]['surface_area_m2']);
+            } else {
+                $house->setArea(null);
+            }
+
             # Grade the house.
             $this->gradeHouse($house);
 

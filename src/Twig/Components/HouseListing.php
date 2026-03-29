@@ -23,4 +23,7 @@ class HouseListing {
     public Grade $overallGrade = Grade::REJECTED;
 
     public HouseStatus $status = HouseStatus::PENDING;
+
+    public int $roomCount = 2;
+    public int $area = 50;
 }
