@@ -23,10 +23,24 @@ class HouseListing {
     #[LiveProp]
     public House $house;
 
+    # House Status Altering Functions
     #[LiveAction]
     public function approveHouse()
     {
         $this->house->setStatus(HouseStatus::APPROVED);
         $this->em->flush();
     }
+    #[LiveAction]
+    public function rejectHouse()
+    {
+        $this->house->setStatus(HouseStatus::REJECTED);
+        $this->em->flush();
+    }
+    #[LiveAction]
+    public function resetHouseStatus()
+    {
+        $this->house->setStatus(HouseStatus::PENDING);
+        $this->em->flush();
+    }
+    
 }

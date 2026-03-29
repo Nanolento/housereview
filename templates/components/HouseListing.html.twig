@@ -9,5 +9,12 @@
   <p>Overall Grade: {{ house.overallGrade.totalScoreLabel }}</p>
   <p>Status: {{ house.status.value }}</p>
   <h3>Adjust Status</h3>
-  <button {{ live_action('approveHouse') }}>Approve House</button>
+  {% if house.status.value == 'Pending' %}
+  <button {{ live_action('approveHouse') }}>Approve</button>
+  <button {{ live_action('rejectHouse') }}>Reject</button>
+  {% elseif house.status.value == 'Approved' %}
+  <button {{ live_action('resetHouseStatus') }}>Unapprove</button>
+  {% elseif house.status.value == 'Rejected' %}
+  <button {{ live_action('resetHouseStatus') }}>Unreject</button>
+  {% endif %}
 </div>
