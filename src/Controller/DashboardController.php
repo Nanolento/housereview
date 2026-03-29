@@ -16,14 +16,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DashboardController extends AbstractController {
 
-    #[Route('/number')]
-    public function number(): Response {
-        $number = random_int(1, 100);
-        return $this->render('number.html.twig', [
-            'number' => $number,
-        ]);
-    }
-
     #[Route('/')]
     public function main(EntityManagerInterface $em): Response {
         # Get houses
