@@ -33,9 +33,7 @@ class DashboardController extends AbstractController {
             }
         }
         
-        return $this->render('dashboard.html.twig', [
-            'houses' => $houses,
-        ]);
+        return $this->render('dashboard.html.twig');
     }
 
     // This is a test route to make loading houses possible while the ui isnt finished,

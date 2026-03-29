@@ -1,5 +1,17 @@
-<div id="houseContainer">
-  {% for house in houses %}
-  <twig:HouseListing :house="house" />
-  {% endfor %}
+<div {{ attributes }}>
+  <div id="filters">
+    <h2>Filters</h2>
+    <button {{ live_action('queryAll') }}>Show All</button>
+    <button {{ live_action('queryPending') }}>Show Pending</button>
+    <button {{ live_action('queryApproved') }}>Show Approved</button>
+    <button {{ live_action('queryRejected') }}>Show Rejected</button>
+  </div>
+  
+  <p>There are {{ this.houses|length }} houses available.</p>
+  
+  <div id="houseContainer">
+    {% for house in this.houses %}
+    <twig:HouseListing :house="house" />
+    {% endfor %}
+  </div>
 </div>
