@@ -67,8 +67,9 @@ class HouseContainer {
 
             return $houses;
         } else {
+            # Find house by query
             return $repo->findBy([
-                'status' => $this->statusQuery->value,
+                'status' => $this->statusQuery,
             ]);
         }
     }

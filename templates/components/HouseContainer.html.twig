@@ -7,7 +7,7 @@
     <button {{ live_action('queryRejected') }}>Show Rejected</button>
   </div>
   
-  <p>There are {{ this.houses|length }} houses available.</p>
+  <p>There are {{ this.houses|length }} houses available. Filter: {{ this.statusQuery.value|default("All") }}.</p>
   
   <div id="houseContainer">
     {% for house in this.houses %}

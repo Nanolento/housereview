@@ -20,7 +20,7 @@ class HouseListing {
     
     use DefaultActionTrait;
 
-    #[LiveProp]
+    #[LiveProp(updateFromParent: true)]
     public House $house;
 
     # House Status Altering Functions
