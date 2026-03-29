@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <body>
-    <h1>House Review Dashboard</h1>
-    <p>There are {{ houses|length }} houses available.</p>
-    <div id="houseContainer">
-      {% for house in houses %}
-      <twig:HouseListing
-        :house="house"
-        />
-      {% endfor %}
-    </div>
-  </body>  
-</html>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>House Review Dashboard</h1>
+<p>There are {{ houses|length }} houses available.</p>
+<div id="houseContainer">
+  {% for house in houses %}
+  <twig:HouseListing
+    :house="house"
+    />
+  {% endfor %}
+</div>
+{% endblock %}
