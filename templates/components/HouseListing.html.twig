@@ -1,8 +1,9 @@
-<div>
+<div {{ attributes }}>
   <h2>{{ title }}</h2>
-  <p>Title Grade: {{ titleGrade }}</p>
-  <p>Rent: {{ monthlyRent }} ({{ rentGrade }})</p>
+  <p>Title Grade: {{ titleGrade.value }}</p>
+  <p>Rent: {{ monthlyRent }} ({{ rentGrade.value }})</p>
   <p>City: {{ city }}</p>
-  <p>Energy Label: {{ energyLabel }} ({{ energyGrade }})</p>
-  <p>Overall Grade: {{ overallGrade }}</p>
+  <p>Energy Label: {{ energyLabel }} ({{ energyGrade.value }})</p>
+  <p>Overall Grade: {{ overallGrade.totalScoreLabel }}</p>
+  <p>Status: {{ status.value }}</p>
 </div>
