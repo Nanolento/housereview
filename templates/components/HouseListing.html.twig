@@ -1,11 +1,11 @@
 <div {{ attributes }}>
-  <h2>{{ title }}</h2>
-  <p>Title Grade: {{ titleGrade.value }}</p>
-  <p>Surface Area: {{ areaString }}</p>
-  <p>Rent: {{ monthlyRent }} ({{ rentGrade.value }})</p>
-  <p>City: {{ city }}</p>
-  <p>Energy Label: {{ energyLabel }} ({{ energyGrade.value }})</p>
-  <p>Room Count: {{ roomCountString }}</p>
-  <p>Overall Grade: {{ overallGrade.totalScoreLabel }}</p>
-  <p>Status: {{ status.value }}</p>
+  <h2>{{ house.title|default('(Title missing)') }}</h2>
+  <p>Title Grade: {{ house.titleGrade.value }}</p>
+  <p>Surface Area: {{ house.areaString }}</p>
+  <p>Rent: {{ house.monthlyRent }} ({{ house.rentGrade.value }})</p>
+  <p>City: {{ house.city }}</p>
+  <p>Energy Label: {{ house.energyLabel|default('(Energy label missing)') }} ({{ house.energyGrade.value }})</p>
+  <p>Room Count: {{ house.roomCountString }}</p>
+  <p>Overall Grade: {{ house.overallGrade.totalScoreLabel }}</p>
+  <p>Status: {{ house.status.value }}</p>
 </div>

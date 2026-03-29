@@ -5,19 +5,9 @@
     <p>There are {{ houses|length }} houses available.</p>
     <div id="houseContainer">
       {% for house in houses %}
-        <twig:HouseListing
-          :title="house.title|default('(Title missing)')"
-          :monthlyRent="house.monthlyRent|default(0)"
-          :city="house.city"
-          :energyLabel="house.energyLabel|default('(Energy label missing)')"
-          :titleGrade="house.titleGrade"
-          :rentGrade="house.rentGrade"
-          :energyGrade="house.energyGrade"
-          :overallGrade="house.overallGrade"
-          :status="house.status"
-          :roomCountString="house.roomCountString"
-          :areaString="house.areaString"
-          />
+      <twig:HouseListing
+        :house="house"
+        />
       {% endfor %}
     </div>
   </body>  
