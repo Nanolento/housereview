@@ -3,11 +3,7 @@
 {% block body %}
 <h1>House Review Dashboard</h1>
 <p>There are {{ houses|length }} houses available.</p>
-<div id="houseContainer">
-  {% for house in houses %}
-  <twig:HouseListing
-    :house="house"
+  <twig:HouseContainer
+    :houses="houses"
     />
-  {% endfor %}
-</div>
 {% endblock %}
