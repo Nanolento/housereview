@@ -8,4 +8,6 @@
   <p>Room Count: {{ house.roomCountString }}</p>
   <p>Overall Grade: {{ house.overallGrade.totalScoreLabel }}</p>
   <p>Status: {{ house.status.value }}</p>
+  <h3>Adjust Status</h3>
+  <button {{ live_action('approveHouse') }}>Approve House</button>
 </div>
