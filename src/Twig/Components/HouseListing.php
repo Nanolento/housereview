@@ -24,6 +24,8 @@ class HouseListing {
 
     public HouseStatus $status = HouseStatus::PENDING;
 
-    public int $roomCount = 2;
-    public int $area = 50;
+    # Note: the below values are defined as string to make
+    # it possible to write "(not specified)" if the values are null
+    public string $roomCountString = "2";
+    public string $areaString = "50 m2";
 }

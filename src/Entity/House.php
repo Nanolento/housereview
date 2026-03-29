@@ -189,6 +189,19 @@ class House
         return $this;
     }
 
+    /**
+     * Returns a string of the area. The area
+     * if defined or "(not specified)" otherwise.
+     * @return string The area as a string
+     **/
+    public function getAreaString(): string {
+        if (is_integer($this->area)) {
+            return strval($this->area) . " m2";
+        } else {
+            return "(not specified)";
+        }
+    }
+
     public function getRoomCount(): ?int
     {
         return $this->roomCount;
@@ -199,5 +212,18 @@ class House
         $this->roomCount = $roomCount;
 
         return $this;
+    }
+
+    /**
+     * Returns a string of the room count. The number of rooms
+     * if defined or "(not specified)" otherwise.
+     * @return string The room count as a string
+     **/
+    public function getRoomCountString(): string {
+        if (is_integer($this->roomCount)) {
+            return strval($this->roomCount);
+        } else {
+            return "(not specified)";
+        }
     }
 }

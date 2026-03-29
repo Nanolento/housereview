@@ -1,11 +1,11 @@
 <div {{ attributes }}>
   <h2>{{ title }}</h2>
   <p>Title Grade: {{ titleGrade.value }}</p>
-  <p>Surface Area: {{ area }} m^2</p>
+  <p>Surface Area: {{ areaString }}</p>
   <p>Rent: {{ monthlyRent }} ({{ rentGrade.value }})</p>
   <p>City: {{ city }}</p>
   <p>Energy Label: {{ energyLabel }} ({{ energyGrade.value }})</p>
-  <p>Room Count: {{ roomCount }}</p>
+  <p>Room Count: {{ roomCountString }}</p>
   <p>Overall Grade: {{ overallGrade.totalScoreLabel }}</p>
   <p>Status: {{ status.value }}</p>
 </div>
