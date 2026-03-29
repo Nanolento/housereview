@@ -24,6 +24,9 @@ class HouseLoader {
      */
     public function loadHouses() {
         # Load JSON data
+        if (!file_exists($this->filePath)) {
+            return false;
+        }
         $housefile = file_get_contents($this->filePath);
         $houses = json_decode($housefile, true); # associative because arrays are easier
 
@@ -93,6 +96,9 @@ class HouseLoader {
         }
         # actually write them to the database.
         $this->em->flush();
+
+        # return success
+        return true;
     }
 
     /**
