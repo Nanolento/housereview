@@ -9,7 +9,7 @@ body {
 }
 
 .gradeChip {
-    @apply text-white rounded-md px-[4px] py-[2px];
+    @apply text-white rounded-md px-[4px] py-[2px] font-bold;
 }
 
 .gradeGoodColor {

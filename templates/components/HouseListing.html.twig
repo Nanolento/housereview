@@ -13,7 +13,7 @@
       <p>Status: {{ house.status.value }}</p>
     </div>
   </div>
-  <div class="gradeSect bg-gray-50 flex flex-row space-x-2 px-4 py-2">
+  <div class="gradeSect bg-gray-50 flex flex-row justify-evenly px-4 py-2">
     {% if house.titleGrade.value == 'Good' %}
     {% set color = 'gradeGoodColor' %}
     {% elseif house.titleGrade.value == 'Warning' %}
@@ -21,7 +21,10 @@
     {% else %}
     {% set color = 'gradeBadColor' %}
     {% endif %}
-    <p>Title <span class="{{ color }} gradeChip">{{ house.titleGrade.value }}</span></p>
+    <!-- Note: the fractions you see here are for the following layout:
+         2/3 for the individual grades. 2/9 per 1 of the 3 grades.
+         1/3 for the overall grade. -->
+    <p class="w-2/9">Title <span class="{{ color }} gradeChip">{{ house.titleGrade.value }}</span></p>
     {% if house.rentGrade.value == 'Good' %}
     {% set color = 'gradeGoodColor' %}
     {% elseif house.rentGrade.value == 'Warning' %}
@@ -29,7 +32,7 @@
     {% else %}
     {% set color = 'gradeBadColor' %}
     {% endif %}
-    <p>Rent <span class="{{ color }} gradeChip">{{ house.rentGrade.value }}</span></p>
+    <p class="w-2/9">Rent <span class="{{ color }} gradeChip">{{ house.rentGrade.value }}</span></p>
     {% if house.energyGrade.value == 'Good' %}
     {% set color = 'gradeGoodColor' %}
     {% elseif house.energyGrade.value == 'Warning' %}
@@ -37,7 +40,7 @@
     {% else %}
     {% set color = 'gradeBadColor' %}
     {% endif %}
-    <p>Energy <span class="{{ color }} gradeChip">{{ house.energyGrade.value }}</span></p>
+    <p class="w-2/9">Energy <span class="{{ color }} gradeChip">{{ house.energyGrade.value }}</span></p>
     {% if house.overallGrade.value == 'Good' %}
     {% set color = 'gradeGoodColor' %}
     {% elseif house.overallGrade.value == 'Warning' %}
@@ -45,7 +48,7 @@
     {% else %}
     {% set color = 'gradeBadColor' %}
     {% endif %}
-    <p>Overall <span class="{{ color }} gradeChip">{{ house.overallGrade.totalScoreLabel }}</span></p>
+    <p class="w-1/3">Overall <span class="{{ color }} gradeChip">{{ house.overallGrade.totalScoreLabel }}</span></p>
   </div>
   <div class="controlSect">
     {% if house.status.value == 'Pending' %}
