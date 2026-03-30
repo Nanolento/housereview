@@ -4,13 +4,14 @@
   <div class="tableSect bg-gray-100 flex flex-row justify-between mt-2 py-[2px]
               w-full border-t border-b border-gray-200">
     <div class="tableCol">
-      <p>Surface Area: {{ house.areaString }}</p>
-      <p>Rent: {{ house.monthlyRent }}</p>
-      <p>City: {{ house.city }}</p>
+      <p title="Surface Area">{{ ux_icon('boxicons:area') }} {{ house.areaString }}</p>
+      <p title="Monthly Rent">{{ ux_icon('tdesign:money') }} €{{ house.monthlyRent }}</p>
+      <p title="City">{{ ux_icon('boxicons:location') }} {{ house.city }}</p>
     </div>
     <div class="tableCol">
-      <p>Energy Label: {{ house.energyLabel|default('(Energy label missing)') }}</p>
-      <p>Room Count: {{ house.roomCountString }}</p>
+      <p title="Energy Label">{{ ux_icon('material-symbols:label-outline') }}
+        {{ house.energyLabel|default('(Energy label missing)') }}</p>
+      <p title="Number of rooms">{{ ux_icon('material-symbols:meeting-room-outline') }} {{ house.roomCountString }}</p>
       {# Colors for status field #}
       {% if house.status.value == 'Rejected' %}
       {% set color = 'statusRejectedColor' %}
@@ -19,7 +20,9 @@
       {% else %}
       {% set color = 'statusPendingColor' %}
       {% endif %}
-      <p>Status: <span class="{{ color }} font-bold">{{ house.status.value }}</span></p>
+      <p title="Status">{{ ux_icon('mdi:note-edit-outline') }}
+        <span class="{{ color }} font-bold">{{ house.status.value }}</span>
+      </p>
     </div>
   </div>
   <div class="gradeSect bg-gray-50 grid grid-cols-2 md:grid-cols-5 gap-4 px-4 py-2
@@ -59,12 +62,12 @@
   </div>
   <div class="flex flex-row justify-end space-x-2 controlSect bg-gray-200 rounded-bl-lg rounded-br-lg px-4 py-2">
     {% if house.status.value == 'Pending' %}
-    <button class="houseButton approveButton" {{ live_action('approveHouse') }}>Approve</button>
-    <button class="houseButton rejectButton" {{ live_action('rejectHouse') }}>Reject</button>
+    <button class="houseButton approveButton" {{ live_action('approveHouse') }}>{{ ux_icon('bi:check-lg') }}Approve</button>
+    <button class="houseButton rejectButton" {{ live_action('rejectHouse') }}>{{ ux_icon('ix:cancel') }}Reject</button>
     {% elseif house.status.value == 'Approved' %}
-    <button class="houseButton cancelButton" {{ live_action('resetHouseStatus') }}>Unapprove</button>
+    <button class="houseButton cancelButton" {{ live_action('resetHouseStatus') }}>{{ ux_icon('material-symbols:undo') }}Unapprove</button>
     {% elseif house.status.value == 'Rejected' %}
-    <button class="houseButton cancelButton" {{ live_action('resetHouseStatus') }}>Unreject</button>
+    <button class="houseButton cancelButton" {{ live_action('resetHouseStatus') }}>{{ ux_icon('material-symbols:undo') }}Unreject</button>
     {% endif %}
   </div>
 </div>

@@ -8,6 +8,14 @@ body {
     @apply space-y-2 w-md px-4 py-2;
 }
 
+.tableCol p {
+    @apply flex items-center gap-2;
+}
+
+.tableCol svg {
+    @apply size-6;
+}
+
 .gradeChip {
     @apply text-white rounded-md px-[4px] py-[2px] font-bold;
 }
@@ -37,7 +45,7 @@ body {
 }
 
 .houseButton {
-    @apply px-2 py-1 rounded-sm text-white font-medium shadow-md;
+    @apply flex items-center gap-1 px-2 py-1 rounded-sm text-white font-medium shadow-md;
 }
 
 .houseButton.approveButton {
