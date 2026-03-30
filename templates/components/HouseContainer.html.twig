@@ -1,7 +1,7 @@
 <div {{ attributes }}>
   <div class="max-w-2xl mx-auto my-4 rounded-lg bg-white
               shadow-md outline outline-black/5 py-4 px-8">
-    <div class="flex flex-row justify-evenly bg-gray-300 p-1 rounded-lg">
+    <div class="flex flex-row justify-evenly bg-gray-300 p-1 rounded-lg inset-shadow-sm">
       <button class="filterButton{% if not this.statusQuery %} filterButtonActive{% endif %}"
               {{ live_action('queryAll') }}>All</button>
       <button class="filterButton{% if this.statusQuery and this.statusQuery.value == 'Pending' %} filterButtonActive{% endif %}"

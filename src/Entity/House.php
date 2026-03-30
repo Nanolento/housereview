@@ -196,7 +196,7 @@ class House
      **/
     public function getAreaString(): string {
         if (is_integer($this->area)) {
-            return strval($this->area) . " m2";
+            return strval($this->area);
         } else {
             return "(not specified)";
         }
