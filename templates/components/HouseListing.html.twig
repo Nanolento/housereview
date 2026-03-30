@@ -49,14 +49,14 @@
     {% endif %}
     <p class="md:col-span-2">Overall:<br><span class="{{ color }} gradeChip">{{ house.overallGrade.totalScoreLabel }}</span></p>
   </div>
-  <div class="controlSect">
+  <div class="flex flex-row justify-end space-x-2 controlSect bg-gray-200 rounded-bl-lg rounded-br-lg px-4 py-2">
     {% if house.status.value == 'Pending' %}
-    <button {{ live_action('approveHouse') }}>Approve</button>
-    <button {{ live_action('rejectHouse') }}>Reject</button>
+    <button class="houseButton approveButton" {{ live_action('approveHouse') }}>Approve</button>
+    <button class="houseButton rejectButton" {{ live_action('rejectHouse') }}>Reject</button>
     {% elseif house.status.value == 'Approved' %}
-    <button {{ live_action('resetHouseStatus') }}>Unapprove</button>
+    <button class="houseButton cancelButton" {{ live_action('resetHouseStatus') }}>Unapprove</button>
     {% elseif house.status.value == 'Rejected' %}
-    <button {{ live_action('resetHouseStatus') }}>Unreject</button>
+    <button class="houseButton cancelButton" {{ live_action('resetHouseStatus') }}>Unreject</button>
     {% endif %}
   </div>
 </div>
