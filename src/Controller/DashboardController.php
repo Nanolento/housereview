@@ -21,8 +21,8 @@ class DashboardController extends AbstractController {
         return $this->render('dashboard.html.twig');
     }
 
-    // This is a test route to make loading houses possible while the ui isnt finished,
-    // we will make it so it loads the houses automatically if none were found with the ui.
+    // This is a test route to trigger parsing the input JSON data
+    // and putting it in the database on demand.
     #[Route('/load')]
     public function loadHouse(HouseLoader $hl): Response {
         if ($hl->loadHouses()) {

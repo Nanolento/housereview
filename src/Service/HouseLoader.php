@@ -21,6 +21,7 @@ class HouseLoader {
     /**
      * Load houses from the input JSON file into the database for later use by the dashboard UI.
      * No parameters, the file path for the JSON file is in services.yaml.
+     * @return bool If loading the houses succeeded or not. (the input file exists or not)
      */
     public function loadHouses() {
         # Load JSON data
@@ -32,18 +33,18 @@ class HouseLoader {
 
         # Process each house
         for ($i = 0; $i < count($houses); $i++) {
-            # check if this house already exists by attempting to retrieve it from db.
             if (!isset($houses[$i]['listing_id'])) {
                 # This house does not have an ID we can check and is therefore invalid.
                 continue;
             }
+            # check if this house already exists by attempting to retrieve it from db.
             $externalId = $houses[$i]['listing_id'];
             $existingHouse = $this->em->getRepository(House::class)->findOneBy([
                 'externalId' => $externalId,
             ]);
 
             if ($existingHouse) {
-                continue; # skip this one as its already there.
+                continue; # skip adding this one as it already exists.
             }
 
             # Create house object and set values
@@ -113,6 +114,9 @@ class HouseLoader {
         # depending on the grades given to individual things.
         
         # Grading title
+        # Not a string, null or empty -> REJECTED
+        # Less than 10 chars -> WARNING
+        # else -> GOOD
         $house_title = $house->getTitle();
         if (!is_string($house_title) || strlen($house_title) === 0) {
             $house->setTitleGrade(Grade::REJECTED);
@@ -125,6 +129,8 @@ class HouseLoader {
         }
 
         # Grading rent
+        # If rent is non-numeric or less than or equal to 0 -> REJECTED
+        # else -> GOOD
         $house_rent = $house->getMonthlyRent();
         if (!is_int($house_rent) || $house_rent <= 0) {
             $house->setRentGrade(Grade::REJECTED);

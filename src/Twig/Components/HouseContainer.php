@@ -22,6 +22,8 @@ class HouseContainer {
     
     use DefaultActionTrait;
 
+    # Indicates the status to show. If null, show all houses
+    # regardless of status.
     #[LiveProp]
     public ?HouseStatus $statusQuery = null;
 
@@ -44,7 +46,8 @@ class HouseContainer {
     }
 
     /**
-     * This function does the filtering based on the query.
+     * This function loads the houses from the database and
+     * filters them based on the query.
      * return array The houses that match the query.
      **/
     public function getHouses() {

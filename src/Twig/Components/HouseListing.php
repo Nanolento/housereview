@@ -20,6 +20,9 @@ class HouseListing {
     
     use DefaultActionTrait;
 
+    # updateFromParent here makes it so the filters cause a
+    # re-render on this component, causing it to show the
+    # correct information.
     #[LiveProp(updateFromParent: true)]
     public House $house;
 
