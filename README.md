@@ -107,6 +107,19 @@ Then we have the templates:
   - Template for rendering the house container. This template also
     pulls in the houses from the database.
 
+We also have two enums to represent the approval/rejection status of
+the house and to represent the grades:
+
+- `HouseStatus`
+  - Used for representing the status of the house
+  - Values: Approved, Rejected, Pending
+- `Grade`
+  - Used for representing grades as nice strings and to avoid using
+    literal strings in the data.
+  - Values: Good, Warning, Rejected
+  - Also there is a helper function to write it as "Ready for Review",
+    "Check Needed" or "Attention Required" for the overall grade.
+
 Miscellaneous files:
 
 - `assets/styles/app.css`
