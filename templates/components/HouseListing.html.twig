@@ -1,5 +1,5 @@
-<div {{ attributes }}>
-  <h2>{{ house.title|default('(Title missing)') }}</h2>
+<div {{ attributes }} class="flex flex-col max-w-lg mx-auto gap-x-4 rounded-xl bg-white p-4 shadow-md outline outline-black/5">
+  <h1 class="text-xl font-bold">{{ house.title|default('(Title missing)') }}</h1>
   <p>Title Grade: {{ house.titleGrade.value }}</p>
   <p>Surface Area: {{ house.areaString }}</p>
   <p>Rent: {{ house.monthlyRent }} ({{ house.rentGrade.value }})</p>
@@ -8,7 +8,7 @@
   <p>Room Count: {{ house.roomCountString }}</p>
   <p>Overall Grade: {{ house.overallGrade.totalScoreLabel }}</p>
   <p>Status: {{ house.status.value }}</p>
-  <h3>Adjust Status</h3>
+  <h2>Adjust Status</h2>
   {% if house.status.value == 'Pending' %}
   <button {{ live_action('approveHouse') }}>Approve</button>
   <button {{ live_action('rejectHouse') }}>Reject</button>
