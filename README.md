@@ -32,7 +32,7 @@ database. Also compile Tailwind CSS to make the frontend work. You can then also
     # Start the server
     $ symfony server:start
 
-> [!WARN]
+> [!WARNING]
 > You might need to change your PHP memory limit if it is at the
 > default 128M setting. I noticed the `tailwind:build` step would fail
 > with an _OutOfMemoryError_ and to fix this, increase the PHP memory
@@ -119,4 +119,6 @@ Miscellaneous files:
 
 This website was made as a test assignment for a job application. I
 learned a lot about Symfony, Symfony UX, UX Live Components, Tailwind
-CSS and working with modern tools in this project.
+CSS and working with modern tools in this project. I found it really
+pleasant to work with these tools, especially Symfony and Tailwind CSS
+were a breeze.
