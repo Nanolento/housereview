@@ -51,3 +51,11 @@ body {
 .houseButton.cancelButton {
     @apply bg-gray-600 hover:bg-gray-500 active:bg-gray-700;
 }
+
+.filterButton {
+    @apply text-gray-600 px-4 py-1 rounded-md w-[10em];
+}
+
+.filterButton.filterButtonActive {
+    @apply text-black bg-white;
+}

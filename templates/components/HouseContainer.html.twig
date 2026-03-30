@@ -1,13 +1,25 @@
 <div {{ attributes }}>
-  <div id="filters">
-    <h2>Filters</h2>
-    <button {{ live_action('queryAll') }}>Show All</button>
-    <button {{ live_action('queryPending') }}>Show Pending</button>
-    <button {{ live_action('queryApproved') }}>Show Approved</button>
-    <button {{ live_action('queryRejected') }}>Show Rejected</button>
+  <div class="max-w-2xl mx-auto my-4 rounded-lg bg-white
+              shadow-md outline outline-black/5 py-4 px-8">
+    <div class="flex flex-row justify-evenly bg-gray-300 p-1 rounded-lg">
+      <button class="filterButton{% if not this.statusQuery %} filterButtonActive{% endif %}"
+              {{ live_action('queryAll') }}>All</button>
+      <button class="filterButton{% if this.statusQuery and this.statusQuery.value == 'Pending' %} filterButtonActive{% endif %}"
+              {{ live_action('queryPending') }}>Pending</button>
+      <button class="filterButton{% if this.statusQuery and this.statusQuery.value == 'Approved' %} filterButtonActive{% endif %}"
+              {{ live_action('queryApproved') }}>Approved</button>
+      <button class="filterButton{% if this.statusQuery and this.statusQuery.value == 'Rejected' %} filterButtonActive{% endif %}"
+              {{ live_action('queryRejected') }}>Rejected</button>
+    </div>
+    <p class="mt-2">
+      {% set count = this.houses|length %}
+      {% if count == 1 %}
+      There is 1 house available.
+      {% else %}
+      There are {{ count }} houses available.
+      {% endif %}
+    </p>
   </div>
-  
-  <p>There are {{ this.houses|length }} houses available. Filter: {{ this.statusQuery.value|default("All") }}.</p>
   
   <div class="space-y-5 mx-5">
     {% for house in this.houses %}
