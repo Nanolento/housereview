@@ -1,20 +1,60 @@
-<div {{ attributes }} class="flex flex-col max-w-xl mx-auto rounded-lg bg-white p-4 shadow-md outline outline-black/5">
+<div {{ attributes }} class="flex flex-col max-w-2xl mx-auto rounded-lg bg-white p-4
+                             shadow-md outline outline-black/5 space-y-2">
   <h1 class="text-xl font-bold">{{ house.title|default('(Title missing)') }}</h1>
-  <p>Title Grade: {{ house.titleGrade.value }}</p>
-  <p>Surface Area: {{ house.areaString }}</p>
-  <p>Rent: {{ house.monthlyRent }} ({{ house.rentGrade.value }})</p>
-  <p>City: {{ house.city }}</p>
-  <p>Energy Label: {{ house.energyLabel|default('(Energy label missing)') }} ({{ house.energyGrade.value }})</p>
-  <p>Room Count: {{ house.roomCountString }}</p>
-  <p>Overall Grade: {{ house.overallGrade.totalScoreLabel }}</p>
-  <p>Status: {{ house.status.value }}</p>
-  <h2>Adjust Status</h2>
-  {% if house.status.value == 'Pending' %}
-  <button {{ live_action('approveHouse') }}>Approve</button>
-  <button {{ live_action('rejectHouse') }}>Reject</button>
-  {% elseif house.status.value == 'Approved' %}
-  <button {{ live_action('resetHouseStatus') }}>Unapprove</button>
-  {% elseif house.status.value == 'Rejected' %}
-  <button {{ live_action('resetHouseStatus') }}>Unreject</button>
-  {% endif %}
+  <div class="tableSect flex flex-row justify-between my-2">
+    <div class="tableCol">
+      <p>Surface Area: {{ house.areaString }}</p>
+      <p>Rent: {{ house.monthlyRent }}</p>
+      <p>City: {{ house.city }}</p>
+    </div>
+    <div class="tableCol">
+      <p>Energy Label: {{ house.energyLabel|default('(Energy label missing)') }}</p>
+      <p>Room Count: {{ house.roomCountString }}</p>
+      <p>Status: {{ house.status.value }}</p>
+    </div>
+  </div>
+  <div class="gradeSect flex flex-row space-x-2">
+    {% if house.titleGrade.value == 'Good' %}
+    {% set color = 'gradeGoodColor' %}
+    {% elseif house.titleGrade.value == 'Warning' %}
+    {% set color = 'gradeWarnColor' %}
+    {% else %}
+    {% set color = 'gradeBadColor' %}
+    {% endif %}
+    <p>Title <span class="{{ color }} gradeChip">{{ house.titleGrade.value }}</span></p>
+    {% if house.rentGrade.value == 'Good' %}
+    {% set color = 'gradeGoodColor' %}
+    {% elseif house.rentGrade.value == 'Warning' %}
+    {% set color = 'gradeWarnColor' %}
+    {% else %}
+    {% set color = 'gradeBadColor' %}
+    {% endif %}
+    <p>Rent <span class="{{ color }} gradeChip">{{ house.rentGrade.value }}</span></p>
+    {% if house.energyGrade.value == 'Good' %}
+    {% set color = 'gradeGoodColor' %}
+    {% elseif house.energyGrade.value == 'Warning' %}
+    {% set color = 'gradeWarnColor' %}
+    {% else %}
+    {% set color = 'gradeBadColor' %}
+    {% endif %}
+    <p>Energy <span class="{{ color }} gradeChip">{{ house.energyGrade.value }}</span></p>
+    {% if house.overallGrade.value == 'Good' %}
+    {% set color = 'gradeGoodColor' %}
+    {% elseif house.overallGrade.value == 'Warning' %}
+    {% set color = 'gradeWarnColor' %}
+    {% else %}
+    {% set color = 'gradeBadColor' %}
+    {% endif %}
+    <p>Overall <span class="{{ color }} gradeChip">{{ house.overallGrade.totalScoreLabel }}</span></p>
+  </div>
+  <div class="controlSect">
+    {% if house.status.value == 'Pending' %}
+    <button {{ live_action('approveHouse') }}>Approve</button>
+    <button {{ live_action('rejectHouse') }}>Reject</button>
+    {% elseif house.status.value == 'Approved' %}
+    <button {{ live_action('resetHouseStatus') }}>Unapprove</button>
+    {% elseif house.status.value == 'Rejected' %}
+    <button {{ live_action('resetHouseStatus') }}>Unreject</button>
+    {% endif %}
+  </div>
 </div>

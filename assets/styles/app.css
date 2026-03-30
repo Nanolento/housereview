@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
 body {
-    background-color: white;
+    @apply bg-slate-100;
+}
+
+.tableCol {
+    @apply space-y-2 w-md;
+}
+
+.gradeChip {
+    @apply text-white rounded-md px-[4px] py-[2px];
+}
+
+.gradeGoodColor {
+    @apply bg-green-600;
+}
+
+.gradeWarnColor {
+    @apply bg-amber-600;
+}
+
+.gradeBadColor {
+    @apply bg-red-700;
 }
