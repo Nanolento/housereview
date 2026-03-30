@@ -9,7 +9,7 @@
   
   <p>There are {{ this.houses|length }} houses available. Filter: {{ this.statusQuery.value|default("All") }}.</p>
   
-  <div id="houseContainer">
+  <div class="space-y-5 mx-5">
     {% for house in this.houses %}
     <twig:HouseListing :house="house" />
     {% endfor %}
