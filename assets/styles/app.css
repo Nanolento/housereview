@@ -5,7 +5,7 @@ body {
 }
 
 .tableCol {
-    @apply space-y-2 w-md;
+    @apply space-y-2 w-md px-4 py-2;
 }
 
 .gradeChip {
