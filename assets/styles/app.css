@@ -24,6 +24,18 @@ body {
     @apply bg-red-700;
 }
 
+.statusApprovedColor {
+    @apply text-green-700;
+}
+
+.statusPendingColor {
+    @apply text-blue-800;
+}
+
+.statusRejectedColor {
+    @apply text-red-800;
+}
+
 .houseButton {
     @apply px-2 py-1 rounded-sm text-white font-medium;
 }
@@ -37,5 +49,5 @@ body {
 }
 
 .houseButton.cancelButton {
-    @apply bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700;
+    @apply bg-gray-600 hover:bg-gray-500 active:bg-gray-700;
 }
