@@ -1,7 +1,8 @@
 <div {{ attributes }} class="flex flex-col max-w-2xl mx-auto rounded-lg bg-white
                              shadow-md outline outline-black/5">
   <h1 class="text-xl m-4 mb-2 font-bold">{{ house.title|default('(Title missing)') }}</h1>
-  <div class="tableSect bg-gray-100 flex flex-row justify-between mt-2 py-[2px] w-full">
+  <div class="tableSect bg-gray-100 flex flex-row justify-between mt-2 py-[2px]
+              w-full border-t border-b border-gray-200">
     <div class="tableCol">
       <p>Surface Area: {{ house.areaString }}</p>
       <p>Rent: {{ house.monthlyRent }}</p>
@@ -13,7 +14,8 @@
       <p>Status: {{ house.status.value }}</p>
     </div>
   </div>
-  <div class="gradeSect bg-gray-50 grid grid-cols-2 md:grid-cols-5 gap-4 px-4 py-2">
+  <div class="gradeSect bg-gray-50 grid grid-cols-2 md:grid-cols-5 gap-4 px-4 py-2
+              border-b border-gray-200">
     {% if house.titleGrade.value == 'Good' %}
     {% set color = 'gradeGoodColor' %}
     {% elseif house.titleGrade.value == 'Warning' %}
