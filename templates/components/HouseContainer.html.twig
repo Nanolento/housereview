@@ -23,7 +23,7 @@
     </p>
   </div>
   
-  <div class="space-y-5 mx-5">
+  <div class="space-y-5 mx-5" data-loading="delay|addClass(opacity-50)">
     {% for house in houses %}
     <twig:HouseListing :house="house" />
     {% endfor %}
