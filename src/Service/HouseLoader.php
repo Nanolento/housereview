@@ -16,7 +16,9 @@ not yet in the database to the database.
 
 class HouseLoader {
 
-    public function __construct(private string $filePath, private EntityManagerInterface $em) {}
+    public function __construct(private string $filePath,
+                                private EntityManagerInterface $em,
+                                private HouseGrader $houseGrader) {}
     
     /**
      * Get house data from the JSON file.
@@ -156,8 +158,7 @@ class HouseLoader {
             $house = $this->mapToHouse($houses[$i]);
 
             # Grade the house.
-            $hg = new HouseGrader();
-            $hg->gradeHouse($house);
+            $this->houseGrader->gradeHouse($house);
 
             # save this house
             $this->em->persist($house);
