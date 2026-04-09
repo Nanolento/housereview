@@ -84,6 +84,27 @@ class HouseLoader {
         }
     }
 
+    /**
+     * Helper function to get optional keys from the data or null otherwise.
+     * @param array data Data to get the key from.
+     * @param string key Key name to get.
+     * @return ?int The integer value or null if not found or invalid.
+     */
+    private function getOptionalInt(array $data, string $key): ?int
+    {
+        return isset($data[$key]) && is_int($data[$key]) ? $data[$key] : null;
+    }
+
+    /**
+     * Helper function to get optional keys from the data or null otherwise.
+     * @param array data Data to get the key from.
+     * @param string key Key name to get.
+     * @return ?int The string value or null if not found or invalid.
+     */
+    private function getOptionalString(array $data, string $key): ?string
+    {
+        return isset($data[$key]) && is_string($data[$key]) ? $data[$key] : null;
+    }
     
     /**
      * Load houses from the input JSON file into the database for later use by the dashboard UI.
@@ -94,62 +115,29 @@ class HouseLoader {
         # Load JSON data
         $houses = $this->getHouseData($this->filePath);
         # make sure its valid
-        #$this->validateHouseData($houses); TODO.
+        $this->validateHouseData($houses);
         
         # Process each house
         for ($i = 0; $i < count($houses); $i++) {
-            if (!isset($houses[$i]['listing_id'])) {
-                # This house does not have an ID we can check and is therefore invalid.
-                continue;
-            }
             # check if this house already exists by attempting to retrieve it from db.
             $externalId = $houses[$i]['listing_id'];
-            $existingHouse = $this->em->getRepository(House::class)->findOneBy([
-                'externalId' => $externalId,
-            ]);
-
-            if ($existingHouse) {
-                continue; # skip adding this one as it already exists.
+            if ($this->houseExists($externalId)) {
+                continue; # skip this one.
             }
 
             # Create house object and set values
             $house = new House();
             $house->setExternalId($externalId);
-            # Make sure title is string, else make it null.
-            if (isset($houses[$i]['headline']) && is_string($houses[$i]['headline'])) {
-                $house->setTitle($houses[$i]['headline']);
-            } else {
-                $house->setTitle(null);
-            }
-            # Monthly rent: should be int, make it null if not.
-            if (isset($houses[$i]['monthly_rent']) && is_int($houses[$i]['monthly_rent'])) {
-                $house->setMonthlyRent($houses[$i]['monthly_rent']);
-            } else {
-                # Invalid type should also just be null
-                $house->setMonthlyRent(null);
-            }
-            # Energy label, should be a short string.
-            if (isset($houses[$i]['energy_class']) && is_string($houses[$i]['energy_class'])) {
-                $house->setEnergyLabel($houses[$i]['energy_class']);
-            } else {
-                $house->setEnergyLabel(null);
-            }
-            # Set city.
+            # Set optional values.
+            $house->setTitle($this->getOptionalString($houses[$i], 'headline'));
+            $house->setMonthlyRent($this->getOptionalInt($houses[$i], 'monthly_rent'));
+            $house->setEnergyLabel($this->getOptionalString($houses[$i], 'energy_class'));
+            # Set city. (already validated)
             $house->setCity($houses[$i]['location_city']);
 
             # Miscellaneous non-required values
-            # Room count
-            if (isset($houses[$i]['rooms']) && is_integer($houses[$i]['rooms'])) {
-                $house->setRoomCount($houses[$i]['rooms']);
-            } else {
-                $house->setRoomCount(null);
-            }
-            # Surface Area (m^2)
-            if (isset($houses[$i]['surface_area_m2']) && is_integer($houses[$i]['surface_area_m2'])) {
-                $house->setArea($houses[$i]['surface_area_m2']);
-            } else {
-                $house->setArea(null);
-            }
+            $house->setRoomCount($this->getOptionalInt($houses[$i], 'rooms'));
+            $house->setArea($this->getOptionalInt($houses[$i], 'surface_area_m2'));
 
             # Grade the house.
             $this->gradeHouse($house);
