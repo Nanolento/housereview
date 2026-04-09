@@ -173,4 +173,37 @@ class HouseLoader {
         # return success
         return true;
     }
+
+    
+    /**
+     * This function loads the houses from the database and
+     * filters them based on the query.
+     * return array The houses that match the query.
+     **/
+    public function getHouses(?HouseStatus $statusQuery): array {
+        $repo = $this->em->getRepository(House::class);
+
+        # If there is no query, just get all of them.
+        if ($statusQuery === null) {
+            $houses = $repo->findAll();
+
+            # Since there is no query, this is all houses.
+            # If there are no houses, lets try parsing the input data
+            # to fill the database.
+            if (count($houses) === 0) {
+                # Load houses into db if there are none in the db.
+                if ($this->loadHouses()) {
+                    # Get houses again
+                    $houses = $repo->findAll();
+                } # else there are no houses, just return the nothing we found earlier.
+            }
+
+            return $houses;
+        } else {
+            # Find house by query
+            return $repo->findBy([
+                'status' => $statusQuery,
+            ]);
+        }
+    }
 }
