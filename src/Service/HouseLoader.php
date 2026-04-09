@@ -38,7 +38,50 @@ class HouseLoader {
             throw new \RuntimeException('Failed to parse JSON, is the JSON valid?');
         }
 
+        # Make sure the data is actually an array.
+        if (!is_array($housedata)) {
+            throw new \UnexpectedValueException('Expected an array from the JSON data, but received another type.');
+        }
         return $housedata;
+    }
+
+    /**
+     * Validates the data from the file is correct and throws
+     * InvalidArgumentException's if the data is missing required keys.
+     * @param array houses The house data loaded in from the JSON.
+     */
+    private function validateHouseData(array $houses): void {
+        # the loading function already checked if the data was an array.
+
+        # Process each house
+        foreach ($houses as $house) {
+            # check if all required keys are present
+            $required_keys = ['listing_id', 'location_city'];
+            foreach ($required_keys as $key) {
+                if (!isset($house[$key])) {
+                    # This house does not have an ID we can check and is therefore invalid.
+                    throw new \InvalidArgumentException("Data is missing a required value ('$key').");
+                }
+            }
+        }
+    }
+
+    /**
+     * This function checks if the house already exists in the database by checking if a house
+     * with this external ID already is in the database.
+     * @param string externalId The house's external ID.
+     * @return bool If it exists or not.
+     */
+    private function houseExists(string $externalId) {
+        $existingHouse = $this->em->getRepository(House::class)->findOneBy([
+            'externalId' => $externalId,
+        ]);
+
+        if ($existingHouse) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     
