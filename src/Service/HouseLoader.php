@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /*
 The HouseLoader class takes houses from the JSON data and puts them in the SQL
 database. If run when the database is not empty, it will add the houses that were
-not yet in the database to the database. It also does the grading of the houses.
+not yet in the database to the database.
 */
 
 class HouseLoader {
@@ -156,7 +156,8 @@ class HouseLoader {
             $house = $this->mapToHouse($houses[$i]);
 
             # Grade the house.
-            $this->gradeHouse($house);
+            $hg = new HouseGrader();
+            $hg->gradeHouse($house);
 
             # save this house
             $this->em->persist($house);
@@ -166,71 +167,5 @@ class HouseLoader {
 
         # return success
         return true;
-    }
-
-    /**
-     * Grades houses based on their title, monthly rent and energy label.
-     * This sets the 'titleGrade', 'rentGrade', 'energyGrade' and 'overallGrade'
-     * in the House object.
-     * @param House house The house to grade and set grades for.
-     */
-    private function gradeHouse(House $house): void {
-        $overallGrade = Grade::GOOD;
-        # In the below grading, according to the rules, this grade will drop
-        # depending on the grades given to individual things.
-        
-        # Grading title
-        # Not a string, null or empty -> REJECTED
-        # Less than 10 chars -> WARNING
-        # else -> GOOD
-        $house_title = $house->getTitle();
-        if (!is_string($house_title) || strlen($house_title) === 0) {
-            $house->setTitleGrade(Grade::REJECTED);
-            $overallGrade = Grade::REJECTED;
-        } elseif (strlen($house_title) < 10) {
-            $house->setTitleGrade(Grade::WARNING);
-            $overallGrade = Grade::WARNING;
-        } else {
-            $house->setTitleGrade(Grade::GOOD);
-        }
-
-        # Grading rent
-        # If rent is non-numeric or less than or equal to 0 -> REJECTED
-        # else -> GOOD
-        $house_rent = $house->getMonthlyRent();
-        if (!is_int($house_rent) || $house_rent <= 0) {
-            $house->setRentGrade(Grade::REJECTED);
-            $overallGrade = Grade::REJECTED;
-        } else {
-            $house->setRentGrade(Grade::GOOD);
-        }
-
-        # Grading Energy Label
-        $valid_energy_labels = [
-            'A++++', 'A+++', 'A++',
-            'A+', 'A', 'B',
-            'C', 'D', 'E',
-            'F', 'G'
-        ];
-        $house_energy_label = $house->getEnergyLabel();
-        # Empty or missing/null -> WARNING, Invalid value (eg. Z) -> REJECTED, in valid_energy_labels -> GOOD
-        if (!is_string($house_energy_label) || strlen($house_energy_label) === 0) {
-            $house->setEnergyGrade(Grade::WARNING);
-            if ($overallGrade !== Grade::REJECTED) {
-                $overallGrade = Grade::WARNING;
-            }
-        } elseif (!in_array($house_energy_label, $valid_energy_labels, true)) {
-            $house->setEnergyGrade(Grade::REJECTED);
-            $overallGrade = Grade::REJECTED;
-        } else {
-            $house->setEnergyGrade(Grade::GOOD);
-        }
-
-        # Overall grading
-        # REJECTED "Attention Required": >=1 grades are REJECTED.
-        # WARNING "Check Needed": None REJECTED, but >=1 are WARNING.
-        # GOOD "Ready for Review": Everything is GOOD.
-        # Processed above.
-        $house->setOverallGrade($overallGrade);
     }
 }
