@@ -127,6 +127,9 @@ class HouseLoader {
         $house->setRoomCount($this->getOptionalInt($housedata, 'rooms'));
         $house->setArea($this->getOptionalInt($housedata, 'surface_area_m2'));
 
+        # Assign default "Pending" status.
+        $house->setStatus(HouseStatus::PENDING);
+
         return $house;
     }
     
@@ -154,9 +157,6 @@ class HouseLoader {
 
             # Grade the house.
             $this->gradeHouse($house);
-
-            # Assign default "Pending" status.
-            $house->setStatus(HouseStatus::PENDING);
 
             # save this house
             $this->em->persist($house);
