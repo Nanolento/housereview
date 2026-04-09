@@ -3,7 +3,6 @@ namespace App\Service;
 
 use App\Entity\House;
 
-use App\Enum\Grade;
 use App\Enum\HouseStatus;
 
 use Doctrine\ORM\EntityManagerInterface;
