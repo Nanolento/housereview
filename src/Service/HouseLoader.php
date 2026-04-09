@@ -105,6 +105,30 @@ class HouseLoader {
     {
         return isset($data[$key]) && is_string($data[$key]) ? $data[$key] : null;
     }
+
+    /**
+     * This function takes the JSON array data and turns it into a House object
+     * used in the application.
+     * @param array housedata The individual house's data as an array, from the JSON.
+     * @return House A House object initialized with the given data.
+     */
+    private function mapToHouse(array $housedata): House {
+        # Create house object and set values
+        $house = new House();
+        $house->setExternalId($housedata['listing_id']);
+        # Set optional values.
+        $house->setTitle($this->getOptionalString($housedata, 'headline'));
+        $house->setMonthlyRent($this->getOptionalInt($housedata, 'monthly_rent'));
+        $house->setEnergyLabel($this->getOptionalString($housedata, 'energy_class'));
+        # Set city. (already validated)
+        $house->setCity($housedata['location_city']);
+
+        # Miscellaneous non-required values
+        $house->setRoomCount($this->getOptionalInt($housedata, 'rooms'));
+        $house->setArea($this->getOptionalInt($housedata, 'surface_area_m2'));
+
+        return $house;
+    }
     
     /**
      * Load houses from the input JSON file into the database for later use by the dashboard UI.
@@ -125,19 +149,8 @@ class HouseLoader {
                 continue; # skip this one.
             }
 
-            # Create house object and set values
-            $house = new House();
-            $house->setExternalId($externalId);
-            # Set optional values.
-            $house->setTitle($this->getOptionalString($houses[$i], 'headline'));
-            $house->setMonthlyRent($this->getOptionalInt($houses[$i], 'monthly_rent'));
-            $house->setEnergyLabel($this->getOptionalString($houses[$i], 'energy_class'));
-            # Set city. (already validated)
-            $house->setCity($houses[$i]['location_city']);
-
-            # Miscellaneous non-required values
-            $house->setRoomCount($this->getOptionalInt($houses[$i], 'rooms'));
-            $house->setArea($this->getOptionalInt($houses[$i], 'surface_area_m2'));
+            # Create house object from JSON data.
+            $house = $this->mapToHouse($houses[$i]);
 
             # Grade the house.
             $this->gradeHouse($house);
