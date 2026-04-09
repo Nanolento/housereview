@@ -78,7 +78,7 @@ class HouseLoader {
      * @param string externalId The house's external ID.
      * @return bool If it exists or not.
      */
-    private function houseExists(string $externalId) {
+    private function houseExists(string $externalId): bool {
         $existingHouse = $this->em->getRepository(House::class)->findOneBy([
             'externalId' => $externalId,
         ]);
