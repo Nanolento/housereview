@@ -12,17 +12,8 @@
       <p title="Energy Label">{{ ux_icon('material-symbols:label-outline') }}
         {{ house.energyLabel|default('(Energy label missing)') }}</p>
       <p title="Number of rooms">{{ ux_icon('material-symbols:meeting-room-outline') }} {{ house.roomCountString }}</p>
-      {# Colors for status field #}
-      {# We use a class here to make it possible to update from app.css, more convenient #}
-      {% if house.status.value == 'Rejected' %}
-      {% set color = 'statusRejectedColor' %}
-      {% elseif house.status.value == 'Approved' %}
-      {% set color = 'statusApprovedColor' %}
-      {% else %}
-      {% set color = 'statusPendingColor' %}
-      {% endif %}
       <p title="Status">{{ ux_icon('mdi:note-edit-outline') }}
-        <span class="{{ color }} font-bold">{{ house.status.value }}</span>
+        <span class="{{ house.status.cssClass }} font-bold">{{ house.status.value }}</span>
       </p>
     </div>
   </div>
@@ -30,46 +21,14 @@
               border-b border-gray-300">
     {# Based on grade, add a class to set the color of the grade chip #}
     {# Again, we use classes to make customizing the colors easier for all grades. #}
-    {# Title Grade #}
-    {% if house.titleGrade.value == 'Good' %}
-    {% set color = 'gradeGoodColor' %}
-    {% elseif house.titleGrade.value == 'Warning' %}
-    {% set color = 'gradeWarnColor' %}
-    {% else %}
-    {% set color = 'gradeBadColor' %}
-    {% endif %}
-    <p>Title:<br><span class="{{ color }} gradeChip">{{ house.titleGrade.value }}</span></p>
-
-    {# Rent Grade #}
-    {% if house.rentGrade.value == 'Good' %}
-    {% set color = 'gradeGoodColor' %}
-    {% elseif house.rentGrade.value == 'Warning' %}
-    {% set color = 'gradeWarnColor' %}
-    {% else %}
-    {% set color = 'gradeBadColor' %}
-    {% endif %}
-    <p>Rent:<br><span class="{{ color }} gradeChip">{{ house.rentGrade.value }}</span></p>
-
-    {# Energy Label Grade #}
-    {% if house.energyGrade.value == 'Good' %}
-    {% set color = 'gradeGoodColor' %}
-    {% elseif house.energyGrade.value == 'Warning' %}
-    {% set color = 'gradeWarnColor' %}
-    {% else %}
-    {% set color = 'gradeBadColor' %}
-    {% endif %}
-    <p>Energy Label:<br><span class="{{ color }} gradeChip">{{ house.energyGrade.value }}</span></p>
+    <p>Title:<br><span class="{{ house.titleGrade.cssClass }} gradeChip">{{ house.titleGrade.value }}</span></p>
+    <p>Rent:<br><span class="{{ house.rentGrade.cssClass }} gradeChip">{{ house.rentGrade.value }}</span></p>
+    <p>Energy Label:<br><span class="{{ house.energyGrade.cssClass }} gradeChip">{{ house.energyGrade.value }}</span></p>
 
     {# Overall Grade #}
-    {% if house.overallGrade.value == 'Good' %}
-    {% set color = 'gradeGoodColor' %}
-    {% elseif house.overallGrade.value == 'Warning' %}
-    {% set color = 'gradeWarnColor' %}
-    {% else %}
-    {% set color = 'gradeBadColor' %}
-    {% endif %}
     {# it uses the totalScoreLabel so it shows i.e. "Ready for Review" instead of "Good" #}
-    <p class="md:col-span-2">Overall:<br><span class="{{ color }} gradeChip">{{ house.overallGrade.totalScoreLabel }}</span></p>
+    <p class="md:col-span-2">Overall:<br>
+      <span class="{{ house.overallGrade.cssClass }} gradeChip">{{ house.overallGrade.totalScoreLabel }}</span></p>
   </div>
   <div class="flex flex-row justify-end space-x-2 controlSect bg-gray-200 rounded-bl-lg rounded-br-lg px-4 py-2">
     {# Show the correct buttons based on status #}

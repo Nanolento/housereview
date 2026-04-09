@@ -20,4 +20,17 @@ enum Grade: string {
             self::REJECTED => 'Attention Required',
         };
     }
+
+    /**
+     * This function returns the proper css class to use depending on
+     * the enum value. Twig calls this as [grade name].cssClass
+     * @return string css class name as a string
+     */
+    public function getCssClass(): string {
+        return match($this) {
+            self::GOOD => 'gradeGoodColor',
+            self::WARNING => 'gradeWarnColor',
+            self::REJECTED => 'gradeBadColor',
+        };
+    }
 }
