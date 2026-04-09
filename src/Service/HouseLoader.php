@@ -56,6 +56,11 @@ class HouseLoader {
 
         # Process each house
         foreach ($houses as $house) {
+            # check if the house is an array
+            if (!is_array($house)) {
+                throw new \UnexpectedValueException('Expected house data to be an array, but received another type.');
+            }
+            
             # check if all required keys are present
             $required_keys = ['listing_id', 'location_city'];
             foreach ($required_keys as $key) {
