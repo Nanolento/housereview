@@ -144,7 +144,7 @@ class HouseLoader {
      * No parameters, the file path for the JSON file is in services.yaml.
      * @return bool If loading the houses succeeded or not. (the input file exists or not)
      */
-    public function loadHouses(): bool {
+    public function loadHouses(): void {
         # Load JSON data
         $houses = $this->getHouseData($this->filePath);
         # make sure its valid
@@ -169,9 +169,6 @@ class HouseLoader {
         }
         # actually write them to the database.
         $this->em->flush();
-
-        # return success
-        return true;
     }
 
     
@@ -192,10 +189,9 @@ class HouseLoader {
             # to fill the database.
             if (count($houses) === 0) {
                 # Load houses into db if there are none in the db.
-                if ($this->loadHouses()) {
-                    # Get houses again
-                    $houses = $repo->findAll();
-                } # else there are no houses, just return the nothing we found earlier.
+                $this->loadHouses();
+                # Get houses again
+                $houses = $repo->findAll();
             }
 
             return $houses;
