@@ -178,7 +178,7 @@ class HouseLoader {
     /**
      * This function loads the houses from the database and
      * filters them based on the query.
-     * return array The houses that match the query.
+     * @return array The houses that match the query.
      **/
     public function getHouses(?HouseStatus $statusQuery): array {
         $repo = $this->em->getRepository(House::class);

@@ -27,6 +27,9 @@ class HouseContainer {
     #[LiveProp]
     public ?HouseStatus $statusQuery = null;
 
+    # Error string set by errors loading the house data.
+    public ?string $error = null;
+
     # Functions to change the query value
     #[LiveAction]
     public function queryApproved(): void {
@@ -46,13 +49,33 @@ class HouseContainer {
     }
 
     /**
-     * This function loads the houses from the database and
-     * filters them based on the query.
-     * return array The houses that match the query.
+     * This function gets the house and does error handling.
+     * @return array The houses that match the query.
      **/
     public function getHouses(): array {
         # Get houses
-        return $this->hl->getHouses($this->statusQuery);
+        try {
+            $houses = $this->hl->getHouses($this->statusQuery);
+            return $houses;
+        } catch (PDOException $e) {
+            $this->error = "Something went wrong when loading the database.";
+            return []; # Return nothing so the component re-renders with nothing.
+        } catch (\RuntimeException $e) {
+            # this exception is raised when at runtime the site fails to load the json file for parsing
+            # either due to a missing file or invalid json being found.
+            $this->error = "Something went wrong when parsing the input file containing the house data. ".
+                "This could be due to a missing input file or the file not containing valid JSON.";
+            return [];
+        } catch (\UnexpectedValueException $e) {
+            # This exception is raised when loading the houses from the json file, but the json file does not
+            # contain house data or the structure is wrong.
+            $this->error = "Something went wrong when loading houses from the input file, there are no houses".
+                " defined in the JSON data!";
+            return [];
+        } catch (\InvalidArgumentException $e) {
+            $this->error = $e->getMessage();
+            return [];
+        }
     }
     
 }
