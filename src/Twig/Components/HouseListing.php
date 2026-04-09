@@ -28,20 +28,17 @@ class HouseListing {
 
     # House Status Altering Functions
     #[LiveAction]
-    public function approveHouse()
-    {
+    public function approveHouse(): void {
         $this->house->setStatus(HouseStatus::APPROVED);
         $this->em->flush();
     }
     #[LiveAction]
-    public function rejectHouse()
-    {
+    public function rejectHouse(): void {
         $this->house->setStatus(HouseStatus::REJECTED);
         $this->em->flush();
     }
     #[LiveAction]
-    public function resetHouseStatus()
-    {
+    public function resetHouseStatus(): void {
         $this->house->setStatus(HouseStatus::PENDING);
         $this->em->flush();
     }

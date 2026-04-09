@@ -23,7 +23,7 @@ class HouseLoader {
      * No parameters, the file path for the JSON file is in services.yaml.
      * @return bool If loading the houses succeeded or not. (the input file exists or not)
      */
-    public function loadHouses() {
+    public function loadHouses(): bool {
         # Load JSON data
         if (!file_exists($this->filePath)) {
             return false;
@@ -108,7 +108,7 @@ class HouseLoader {
      * in the House object.
      * @param House house The house to grade and set grades for.
      */
-    private function gradeHouse(House $house) {
+    private function gradeHouse(House $house): void {
         $overallGrade = Grade::GOOD;
         # In the below grading, according to the rules, this grade will drop
         # depending on the grades given to individual things.

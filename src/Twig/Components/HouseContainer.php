@@ -29,19 +29,19 @@ class HouseContainer {
 
     # Functions to change the query value
     #[LiveAction]
-    public function queryApproved() {
+    public function queryApproved(): void {
         $this->statusQuery = HouseStatus::APPROVED;
     }
     #[LiveAction]
-    public function queryPending() {
+    public function queryPending(): void {
         $this->statusQuery = HouseStatus::PENDING;
     }
     #[LiveAction]
-    public function queryRejected() {
+    public function queryRejected(): void {
         $this->statusQuery = HouseStatus::REJECTED;
     }
     #[LiveAction]
-    public function queryAll() {
+    public function queryAll(): void {
         $this->statusQuery = null;
     }
 
@@ -50,7 +50,7 @@ class HouseContainer {
      * filters them based on the query.
      * return array The houses that match the query.
      **/
-    public function getHouses() {
+    public function getHouses(): array {
         $repo = $this->em->getRepository(House::class);
 
         # If there is no query, just get all of them.
