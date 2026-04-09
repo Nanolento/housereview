@@ -4,6 +4,11 @@ body {
     @apply bg-slate-100 pb-4;
 }
 
+.dashboardCard {
+    @apply max-w-2xl mx-auto my-4 rounded-lg
+    shadow-md outline outline-black/5 py-4 px-8;
+}
+
 .tableCol {
     @apply space-y-2 w-md px-4 py-2;
 }
