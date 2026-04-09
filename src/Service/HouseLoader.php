@@ -17,7 +17,31 @@ not yet in the database to the database. It also does the grading of the houses.
 class HouseLoader {
 
     public function __construct(private string $filePath, private EntityManagerInterface $em) {}
+    
+    /**
+     * Get house data from the JSON file.
+     * @param string housefilepath The file path to the file containing the JSON data.
+     * @return array The house JSON data as an array.
+     */
+    private function getHouseData(string $housefilepath): array {
+        # Read file
+        $housefile = file_get_contents($housefilepath);
+        if (!$housefile) {
+            # Failed loading the file, it perhaps does not exist or failed to read in some way.
+            throw new \RuntimeException('Failed to load file: '.$housefilepath);
+        }
 
+        # Parse JSON
+        $housedata = json_decode($housefile, true);
+        if (!$housedata) {
+            # The JSON data parsing failed. Perhaps the file contains invalid JSON?
+            throw new \RuntimeException('Failed to parse JSON, is the JSON valid?');
+        }
+
+        return $housedata;
+    }
+
+    
     /**
      * Load houses from the input JSON file into the database for later use by the dashboard UI.
      * No parameters, the file path for the JSON file is in services.yaml.
@@ -25,12 +49,10 @@ class HouseLoader {
      */
     public function loadHouses(): bool {
         # Load JSON data
-        if (!file_exists($this->filePath)) {
-            return false;
-        }
-        $housefile = file_get_contents($this->filePath);
-        $houses = json_decode($housefile, true); # associative because arrays are easier
-
+        $houses = $this->getHouseData($this->filePath);
+        # make sure its valid
+        #$this->validateHouseData($houses); TODO.
+        
         # Process each house
         for ($i = 0; $i < count($houses); $i++) {
             if (!isset($houses[$i]['listing_id'])) {
