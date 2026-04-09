@@ -34,7 +34,7 @@ class HouseLoader {
 
         # Parse JSON
         $housedata = json_decode($housefile, true);
-        if (!$housedata) {
+        if ($housedata === null) {
             # The JSON data parsing failed. Perhaps the file contains invalid JSON?
             throw new \RuntimeException('Failed to parse JSON, is the JSON valid?');
         }
