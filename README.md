@@ -1,5 +1,7 @@
 # House Review Dashboard
 
+![Screenshot of the website](demo_image.jpg)
+
 This is a website to help you review houses by title, rent and energy
 label. The website reads in a JSON file containing house data, grades
 these houses and creates a dashboard where the user can review
